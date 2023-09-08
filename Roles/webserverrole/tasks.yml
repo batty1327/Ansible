@@ -1,0 +1,8 @@
+---
+-name: installing httpd
+ yum: name=httpd state=present
+
+-name: starting httpd
+ service: name=httpd state=started
+ notify: restart mariadb
+ notify: restart php-fpm

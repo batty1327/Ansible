@@ -1,0 +1,7 @@
+-name: installing mysql
+ dnf: name=mariadb105 state=present
+
+-name: starting mysql
+ serveice: name=mariadb state=started
+ notify: restart httpd
+ notify: restart php-fpm

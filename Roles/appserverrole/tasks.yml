@@ -1,0 +1,13 @@
+-name: installing php
+ yum: name=php8.1 state=present
+
+-name: installing php-fpm
+ yum: name=php-fpm state=present
+
+-name: starting php
+ service: name=php8.1 state=started
+
+-name: starting php-fpm
+ service: name=php-fpm state=started
+ notify: restart httpd
+ notify: restart mariadb

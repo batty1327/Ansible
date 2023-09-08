@@ -1,0 +1,9 @@
+---
+-name: Testing Roles
+ hosts: localhost
+ connection: local
+ become: yes
+ roles:
+   -{role: webserverrole}
+   -{role: appserverrole}
+   -{role: dbserverrole}

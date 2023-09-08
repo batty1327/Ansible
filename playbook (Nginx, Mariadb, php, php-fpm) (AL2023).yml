@@ -1,0 +1,85 @@
+---
+# Playbook name and description
+- name: Installing Nginx, MariaDB, PHP, and PHP-FPM
+  # Hosts or target servers where this playbook will be executed
+  hosts: myserver
+  # Become indicates that we'll use sudo to execute tasks with elevated privileges
+  become: yes
+
+  # List of tasks to be executed on the target servers
+  tasks:
+    # Task 1: Installing Nginx and MariaDB 10.5 server
+    - name: Installing Nginx and MariaDB 10.5 server
+      yum:
+        # List of packages to install (Nginx and MariaDB 10.5 server)
+        name: ['nginx', 'mariadb105-server']
+        # Desired state of the packages (ensure they are present)
+        state: present
+
+    # Task 2: Starting Nginx service
+    - name: Starting Nginx
+      service:
+        # Name of the service to start (Nginx)
+        name: nginx
+        # Desired state of the service (ensure it is started)
+        state: started
+
+    # Task 3: Starting MariaDB service
+    - name: Starting MariaDB
+      service:
+        # Name of the service to start (MariaDB)
+        name: mariadb
+        # Desired state of the service (ensure it is started)
+        state: started
+
+    # Task 4: Installing PHP
+    - name: Installing PHP
+      yum:
+        # Name of the package to install (PHP)
+        name: php
+        # Desired state of the package (ensure it is present)
+        state: present
+
+    # Task 5: Installing PHP-FPM
+    - name: Installing PHP-FPM
+      yum:
+        # Name of the package to install (PHP-FPM)
+        name: php-fpm
+        # Desired state of the package (ensure it is present)
+        state: present
+
+    # Task 6: Starting PHP-FPM service and notifying handlers
+    - name: Starting PHP-FPM
+      service:
+        # Name of the service to start (PHP-FPM)
+        name: php-fpm
+        # Desired state of the service (ensure it is started)
+        state: started
+      # Notify handlers to restart Nginx, MariaDB, and PHP-FPM
+      notify: ['restart nginx', 'restart mariadb', 'restart php-fpm']
+
+  # Handlers are defined to manage service restarts
+  handlers:
+    # Handler 1: Restarting MariaDB service
+    - name: restart mariadb
+      service:
+        # Name of the service to restart (MariaDB)
+        name: mariadb
+        # Desired state of the service (restart it)
+        state: restarted
+
+    # Handler 2: Restarting Nginx service
+    - name: restart nginx
+      service:
+        # Name of the service to restart (Nginx)
+        name: nginx
+        # Desired state of the service (restart it)
+        state: restarted
+
+    # Handler 3: Restarting PHP-FPM service
+    - name: restart php-fpm
+      service:
+        # Name of the service to restart (PHP-FPM)
+        name: php-fpm
+        # Desired state of the service (restart it)
+        state: restarted

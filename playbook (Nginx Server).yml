@@ -1,0 +1,14 @@
+---
+# Playbook name and description
+- name: Installing and Starting Nginx
+  hosts: myserver                           # Hosts or target servers where this playbook will be executed
+  become: yes                               # Become indicates that we'll use sudo to execute tasks with elevated privileges
+  tasks:                                    # List of tasks to be executed on the target servers
+    - name: Installing Nginx
+      yum:                                  # 'yum' module is used to install software packages on Red Hat-based systems
+        name: nginx                         # Name of the package to be installed (in this case, 'nginx')
+        state: present                      # Desired state of the package (in this case, 'present' means ensure it's installed)
+    - name: Starting Nginx
+      service:                              # 'service' module is used to manage system services (start, stop, enable, etc.)
+          name: nginx                       # Name of the service to be managed (in this case, 'nginx')
+          state: started                    # Desired state of the service (in this case, 'started' means ensure it's running)
